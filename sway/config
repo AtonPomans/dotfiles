@@ -21,6 +21,22 @@ set $menu wofi
 
 
 #
+# Power button stuff
+#
+
+
+bindsym XF86PowerOff exec swaylock -f -c 000000 && systemctl suspend
+
+
+#
+# Lock screen and turn off display after inactivity
+#
+exec swayidle -w \
+  timeout 300 'swaylock -f -c 000000' \
+  timeout 300 'systemctl suspend' \
+
+
+#
 # Screen capture
 #
 set $screenshot 1 selected, 2 whole, 3 selected clipboard, 4 whole clipboard, 5 swappy
@@ -49,6 +65,17 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 exec export MOZ_ENABLE_WAYLAND=1
 
 
+
+exec_always {
+    export XDG_CURRENT_DESKTOP=sway
+    export XDG_SESSION_TYPE=wayland
+    export XDG_SESSION_DESKTOP=sway
+    export XDG_DESKTOP_PORTAL_BACKEND=wlr
+    dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XDG_SESSION_DESKTOP XDG_DESKTOP_PORTAL_BACKEND
+}
+
+
+
 # xwayland stuff
 xwayland enable
 
@@ -72,14 +99,6 @@ output * bg ~/Pictures/Wallpapers/totoro_game-of-thrones.jpg fill
 output * resolution --custom 2256x1504 scale 1
 
 #
-### Idle configuration
-#
-exec swayidle -w \
-	timeout 300 'swaylock -f -c 000000' \
-	timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-	before-sleep 'swaylock -f -c 000000'
-
-#
 # Basics:
 #
     bindsym $mod+Return exec $term
@@ -94,18 +113,18 @@ exec swayidle -w \
     floating_modifier $mod normal
 
     bindsym $mod+Shift+c reload
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    bindsym --locked $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
     set $refresh_i3status kill all -SIGUSR1 i3status
-    bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-    bindsym XF86AudioLowerVolume exec  pactl set-sink-volume @DEFAULT_SINK@ -5%
-    bindsym XF86AudioMute exec  pactl set-sink-mute @DEFAULT_SINK@ toggle
+    bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+    bindsym --locked XF86AudioLowerVolume exec  pactl set-sink-volume @DEFAULT_SINK@ -5%
+    bindsym --locked XF86AudioMute exec  pactl set-sink-mute @DEFAULT_SINK@ toggle
 
     # allow light exec to work without super user password:
     # $ sudo chmod +s /usr/bin/light
     exec  light -N 5
-    bindsym XF86MonBrightnessUp exec light -A 2
-    bindsym XF86MonBrightnessDown exec light -U 2
+    bindsym --locked XF86MonBrightnessUp exec light -A 2
+    bindsym --locked XF86MonBrightnessDown exec light -U 2
 
     bindsym XF86AudioPlay exec playerctl play-pause
     bindsym XF86AudioPause exec playerctl play-pause

@@ -26,10 +26,49 @@ return {
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = {
+                -- Web & Frontend
+                "html",
+                "cssls",
+                "eslint",
+                "jsonls",
+                "emmet_ls",
+
+                -- Python
+                "pyright",
+
+                -- Lua
                 "lua_ls",
-                "rust_analyzer",
---                "gopls",
+
+                -- C/C++
+                "clangd",
+
+                -- Java
+                "jdtls",
+
+                -- Bash / Shell
+                "bashls",
+
+                -- Docker
+                "dockerls",
+                "docker_compose_language_service",
+
+                -- Markdown / Writing
+                "marksman",
+                "ltex",
+
+                -- SQL
+                "sqlls",
+
+                -- PHP
+                "intelephense",
+
+                -- JavaScript tools
+                "quick_lint_js",
+
+                -- C#
+                "omnisharp",
             },
+
             handlers = {
                 function(server_name) -- default handler (optional)
                     require("lspconfig")[server_name].setup {
@@ -87,9 +126,10 @@ return {
             sources = cmp.config.sources({
                 { name = 'nvim_lsp' },
                 { name = 'luasnip' }, -- For luasnip users.
+                { name = 'path' }, -- file path suggestions
             }, {
-                { name = 'buffer' },
-            })
+                    { name = 'buffer' },
+                })
         })
 
         vim.diagnostic.config({

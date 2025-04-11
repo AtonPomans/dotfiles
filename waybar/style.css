@@ -1,6 +1,6 @@
 * {
-	font-size: 16px;
-	font-family: "ComicMono";
+	font-size: 18px;
+	font-family: "ComicMono", "JetBrainsMono Nerd Font", "Noto Sans Symbols", sans-serif;
 }
 
 window#waybar {

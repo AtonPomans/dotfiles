@@ -14,7 +14,7 @@ require("core.lazy")
 -- DO.not
 
 local augroup = vim.api.nvim_create_augroup
-local ThePrimeagenGroup = augroup('ThePrimeagen', {})
+local AtonGroup = augroup('Aton', {})
 
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})
@@ -41,13 +41,19 @@ autocmd('TextYankPost', {
 })
 
 autocmd({"BufWritePre"}, {
-    group = ThePrimeagenGroup,
+    group = AtonGroup,
     pattern = "*",
-    command = [[%s/\s\+$//e]],
+    callback = function()
+        local ft = vim.bo.filetype or ""
+        if ft == "markdown" or ft == "md" then
+            return
+        end
+        vim.cmd([[%s/\s\+$//e]])
+    end,
 })
 
 autocmd('LspAttach', {
-    group = ThePrimeagenGroup,
+    group = AtonGroup,
     callback = function(e)
 	local opts = { buffer = e.buf }
 	vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)

@@ -31,9 +31,9 @@ bindsym XF86PowerOff exec swaylock -f -c 000000 && systemctl suspend
 #
 # Lock screen and turn off display after inactivity
 #
-exec swayidle -w \
-  timeout 300 'swaylock -f -c 000000' \
-  timeout 300 'systemctl suspend' \
+# exec swayidle -w \
+#   timeout 300 'swaylock -f -c 000000' \
+#   timeout 300 'systemctl suspend' \
 
 
 #
@@ -93,6 +93,7 @@ seat * hide_cursor 5000
 ### Output configuration
 #
 output * bg ~/Pictures/Wallpapers/totoro_game-of-thrones.jpg fill
+#output * bg ~/Pictures/Wallpapers/menu.jpg fill
 #output * bg ~/Pictures/Wallpapers/mononoke.jpg fill
 #output * bg ~/Pictures/Wallpapers/noface_bridge.jpg fill
 #output * bg ~/Pictures/Wallpapers/totoro_corner.jpg fill
@@ -195,8 +196,8 @@ output * resolution --custom 2256x1504 scale 1
     bindsym $mod+Shift+0 move container to workspace number 10
 
     # make gaps between windows
-    gaps inner 4
-#    gaps outer -5
+    gaps inner 12
+#    gaps outer 6
 
 
 #
@@ -224,7 +225,6 @@ output * resolution --custom 2256x1504 scale 1
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
-
 
 #
 # Resizing containers:

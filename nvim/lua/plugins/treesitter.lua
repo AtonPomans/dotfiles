@@ -1,12 +1,22 @@
 return {
     "nvim-treesitter/nvim-treesitter",
+    branch = "master",
     build = ":TSUpdate",
     config = function()
         require("nvim-treesitter.configs").setup({
-            -- A list of parser names, or "all"
+            -- Popular languages up front, plus injection-only parsers (markdown_inline, regex, luadoc, ...)
+            -- that auto_install never fetches. Anything else still installs on first open.
             ensure_installed = {
-                "vimdoc", "javascript", "typescript", "c", "lua", "rust",
-                "jsdoc", "bash",
+                -- Neovim & docs
+                "vim", "vimdoc", "lua", "luadoc", "query", "regex", "markdown", "markdown_inline",
+                -- Web
+                "javascript", "typescript", "tsx", "jsdoc", "html", "css", "scss", "json", "jsonc",
+                -- Backend & systems
+                "python", "go", "gomod", "rust", "c", "cpp", "c_sharp", "java", "kotlin", "php",
+                "ruby", "zig", "sql",
+                -- Shell, config & git
+                "bash", "dockerfile", "yaml", "toml", "xml", "make", "diff",
+                "git_config", "gitcommit", "git_rebase", "gitignore",
             },
 
             -- Install parsers synchronously (only applied to `ensure_installed`)

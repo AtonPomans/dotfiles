@@ -26,14 +26,26 @@ end
 vim.filetype.add({
     extension = {
 	templ = 'templ',
-    }
+    },
+    -- Compose files get their own filetype so docker_compose_language_service attaches
+    -- (yamlls and Treesitter still treat them as YAML).
+    filename = {
+        ["compose.yml"] = "yaml.docker-compose",
+        ["compose.yaml"] = "yaml.docker-compose",
+        ["docker-compose.yml"] = "yaml.docker-compose",
+        ["docker-compose.yaml"] = "yaml.docker-compose",
+    },
+    pattern = {
+        ["compose%..+%.ya?ml"] = "yaml.docker-compose",
+        ["docker%-compose%..+%.ya?ml"] = "yaml.docker-compose",
+    },
 })
 
 autocmd('TextYankPost', {
     group = yank_group,
     pattern = '*',
     callback = function()
-	vim.highlight.on_yank({
+	vim.hl.on_yank({
 	    higroup = 'IncSearch',
 	    timeout = 40,
 	})
@@ -64,8 +76,8 @@ autocmd('LspAttach', {
 	vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
 	vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
 	vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
-	vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-	vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+	vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
+	vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
     end
 })
 
